@@ -1,0 +1,61 @@
+
+# 文件夹说明
+## user 用户应用 hello world
+## 1 内核驱动 hello world
+## 2 platform driver
+## 3 spin lock 
+## 4 semaphore
+## 5 mutex
+## 6 kenerl timer
+## 7 tasklist
+## 8 poll
+## 9 asynchronous Notification
+## led
+## key
+## i2c gy906
+
+# 常用指令
+## 编译指令
+### 编译驱动
+1. 配置kernel路径
+2. make 生成.ko文件
+3. make clean 清除
+
+### 编译应用
+1. 生成交叉编译工具链
+2. aarch64-linux-gnu-gcc platform_driver_test.c -o platform_driver_test 生成可执行文件
+
+
+## 切换root指令
+终端下使用su
+
+## 推文件到开发板
+连接adb后，使用adb push指令，建议推到sdcard或data目录下
+adb push xxx /sdcard
+adb push xxx /data/local/tmp
+
+## 从开发板拉取文件
+连接adb后，使用adb pull指令
+
+## 驱动加载、卸载
+加载 insmod xxx.ko
+查看加载的驱动 lsmod
+卸载 rmmod xxx  (注意，没有.ko)
+
+
+## 添加DTS节点
+kernel/arch/arm64/boot/dts/rockchip/rk3399-embeded-demo.dtsi
+        test_demo: test_demo {
+                status = "okay";
+                compatible = "embeded,platform-test";
+        };
+
+## 判断DTS是否添加成功
+make dtbs烧录后，使用ls查看是否生成文件
+ls proc/device-tree/ | grep test_demo
+
+
+## 交叉编译用户空间程序
+aarch64-linux-gnu-gcc platform_driver_test.c -o platform_driver_test -static
+adb push platform_driver_test /data/local/tmp
+
